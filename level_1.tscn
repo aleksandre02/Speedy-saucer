@@ -1,0 +1,119 @@
+[gd_scene load_steps=12 format=3 uid="uid://ryjn3e3qh7ev"]
+
+[ext_resource type="Texture2D" uid="uid://d1050037h0any" path="res://purple.png" id="1_d1wgg"]
+[ext_resource type="Script" path="res://level.gd" id="1_vktj5"]
+[ext_resource type="PackedScene" uid="uid://buj8ufmwi2w7i" path="res://player.tscn" id="2_qnmgr"]
+[ext_resource type="PackedScene" uid="uid://r56cds2vjtl4" path="res://maze.tscn" id="4_05fuh"]
+[ext_resource type="PackedScene" uid="uid://fsjchi8b40ej" path="res://win_box.tscn" id="5_0e5b1"]
+[ext_resource type="Script" path="res://speedrun.gd" id="6_gyvef"]
+[ext_resource type="PackedScene" uid="uid://uuvwybw0mjuf" path="res://maze2.tscn" id="7_tdxjl"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3hf0p"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_ihfpf"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_jii7w"]
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_bqcvu"]
+font_size = 32
+
+[node name="Level1" type="Node2D"]
+position = Vector2(1, 0)
+script = ExtResource("1_vktj5")
+
+[node name="Graphics" type="Node" parent="."]
+
+[node name="StartLabel" type="Label" parent="Graphics"]
+z_index = -25
+offset_left = 507.0
+offset_top = 129.0
+offset_right = 602.0
+offset_bottom = 174.0
+text = "START"
+label_settings = SubResource("LabelSettings_3hf0p")
+
+[node name="EndLabel" type="Label" parent="Graphics"]
+z_index = -25
+offset_left = 1670.0
+offset_top = -18.0
+offset_right = 1765.0
+offset_bottom = 27.0
+text = "END"
+label_settings = SubResource("LabelSettings_3hf0p")
+
+[node name="Tutorial" type="Label" parent="Graphics"]
+z_index = -25
+offset_left = 3.0
+offset_top = -3.0
+offset_right = 678.0
+offset_bottom = 142.0
+text = "Rules:
+-Go from the start to the end
+-You will go back to the start if you go outside of the maze!
+-Use arrow keys or WASD to move"
+label_settings = SubResource("LabelSettings_ihfpf")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Graphics"]
+layer = -10
+
+[node name="Background" type="TextureRect" parent="Graphics/CanvasLayer"]
+z_index = -100
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2.03031, 2.04)
+texture = ExtResource("1_d1wgg")
+stretch_mode = 1
+
+[node name="Player" parent="." instance=ExtResource("2_qnmgr")]
+position = Vector2(560, 243)
+scale = Vector2(1.00326, 0.977907)
+
+[node name="Maze" parent="." instance=ExtResource("4_05fuh")]
+z_index = -50
+position = Vector2(563, 703)
+
+[node name="Maze2" parent="." instance=ExtResource("7_tdxjl")]
+z_index = -50
+position = Vector2(4292, 962)
+
+[node name="WinBox" parent="." instance=ExtResource("5_0e5b1")]
+position = Vector2(1576, 49)
+
+[node name="Speedrun" type="CanvasLayer" parent="."]
+script = ExtResource("6_gyvef")
+
+[node name="speedrunTime" type="Label" parent="Speedrun"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -38.0
+offset_top = -23.0
+offset_right = 2.0
+grow_horizontal = 0
+grow_vertical = 0
+label_settings = SubResource("LabelSettings_jii7w")
+
+[node name="prTime" type="Label" parent="Speedrun"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -41.0
+offset_top = -2.0
+offset_right = -1.0
+offset_bottom = 43.0
+grow_horizontal = 0
+label_settings = SubResource("LabelSettings_bqcvu")
+
+[connection signal="body_exited" from="Maze" to="." method="_on_maze_body_exited"]
+[connection signal="body_exited" from="Maze" to="Speedrun" method="_on_maze_body_exited"]
+[connection signal="body_exited" from="Maze2" to="." method="_on_maze_body_exited"]
+[connection signal="body_entered" from="WinBox" to="." method="_on_win_box_body_entered"]
+[connection signal="body_entered" from="WinBox" to="Speedrun" method="_on_win_box_body_entered"]

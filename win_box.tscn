@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://fsjchi8b40ej"]
+
+[node name="WinBox" type="Area2D"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-117.3, 22.1)
+polygon = PackedVector2Array(129, -48, 129, 148, 248, 149)
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(-117.3, 22.1)
+color = Color(0.760784, 0.556863, 0.054902, 1)
+polygon = PackedVector2Array(129, -48, 129, 148, 248, 149)
